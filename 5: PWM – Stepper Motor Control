@@ -1,0 +1,64 @@
+Experiment No.—5: PWM – Stepper Motor Control 
+
+a) Interface a stepper motor using a motor driver 
+b) Control direction and vary speed using PWM signals 
+c) Observe effect of duty cycle changes on motor movement 
+
+
+Theoretical Steps, Code & Expected Output: 
+
+Theoretical Steps (Procedure) 
+
+1. Connect the stepper motor to the ULN2003 driver module. 
+2. Connect the driver module input pins (IN1, IN2, IN3, IN4) to Raspberry Pi GPIO pins. 
+3. Connect the VCC and GND of the driver module to the appropriate power supply. 
+4. Boot the Raspberry Pi and open Thonny IDE. 
+5. Import the required Python libraries such as RPi.GPIO and time. 
+6. Configure GPIO mode using BCM numbering. 
+7. Set the GPIO pins connected to the driver module as OUTPUT. 
+8. Define the step sequence required to rotate the motor. 
+9. Implement PWM or delay control to regulate motor speed. 
+10. Execute the program and observe motor rotation. 
+11. Reverse the sequence of signals to change the direction of rotation. 
+12. Modify delay values to study the effect of duty cycle on motor speed. 
+
+Python Code (Stepper Motor Control)
+
+import RPi.GPIO as GPIO 
+import time 
+ 
+GPIO.setmode(GPIO.BCM) 
+ 
+# GPIO pins connected to ULN2003 
+motor_pins = [17, 18, 27, 22] 
+ 
+for pin in motor_pins: 
+    GPIO.setup(pin, GPIO.OUT) 
+    GPIO.output(pin, 0) 
+ 
+# Step sequence 
+step_sequence = [ 
+    [1,0,0,0], 
+    [0,1,0,0], 
+    [0,0,1,0], 
+    [0,0,0,1] 
+] 
+ 
+try: 
+    while True: 
+        for step in step_sequence: 
+        for i in range(4): 
+            GPIO.output(motor_pins[i], step[i]) 
+        time.sleep(0.01)  # Controls speed
+
+except KeyboardInterrupt: 
+    GPIO.cleanup()
+
+
+Expected Output 
+
+Hardware Observation 
+• The stepper motor begins to rotate in the forward direction. 
+• Each sequence activates one coil at a time, causing step-by-step movement. 
+• Decreasing the delay value increases the motor speed. 
+• Reversing the step sequence results in reverse rotation of the motor. 
